@@ -26,11 +26,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        myGyro()
+//        myGyro()
         myAccel()
         print("installed")
     }
-    
+    /*
     func myGyro() {
         if motion.isGyroAvailable {
 //            self.motion.gyroUpdateInterval = 1.0
@@ -58,7 +58,7 @@ class ViewController: UIViewController {
             RunLoop.current.add(self.timer, forMode: RunLoop.Mode.default)
         }
     }
-    
+    */
     func myAccel() {
 //        motion.accelerometerUpdateInterval = 1.0
         motion.accelerometerUpdateInterval = 1.0 / 60.0
@@ -69,24 +69,36 @@ class ViewController: UIViewController {
                 let y = String(format: "%.3f", myData.acceleration.y)
                 let z = String(format: "%.3f", myData.acceleration.z)
                 
-                self.accelx.text = x
-                self.accely.text = y
-                self.accelz.text = z
+                self.accelx.text = "x: \(x)"
+                self.accely.text = "y: \(y)"
+                self.accelz.text = "z: \(z)"
                 
 //                print("acc \(x),\(y),\(z)")
                 
                 if self.isFlippingPage == false {
-                    if myData.acceleration.y < -0.6 && myData.acceleration.z > -0.7 {
-                        print("next page")
-                        self.flip.text = "next page"
-                        self.isFlippingPage = true
-                    } else if myData.acceleration.y > 0.6 && myData.acceleration.z > -0.7 {
-                        print("previous page")
-                        self.flip.text = "previous page"
-                        self.isFlippingPage = true
+                    if myData.acceleration.z < -0.5 {
+                        if myData.acceleration.y < -0.54 {
+                            print("next page")
+                            self.flip.text = "next page"
+                            self.isFlippingPage = true
+                        } else if myData.acceleration.y > 0.54 {
+                            print("previous page")
+                            self.flip.text = "previous page"
+                            self.isFlippingPage = true
+                        }
+                    } else if myData.acceleration.x > 0.5 {
+                        if myData.acceleration.y < -0.24 {
+                            print("next page2")
+                            self.flip.text = "next page2"
+                            self.isFlippingPage = true
+                        } else if myData.acceleration.y > 0.24 {
+                            print("previous page2")
+                            self.flip.text = "previous page2"
+                            self.isFlippingPage = true
+                        }
                     }
                 } else {
-                    if myData.acceleration.y > -0.3 && myData.acceleration.y < 0.3 {
+                    if myData.acceleration.y > -0.17 && myData.acceleration.y < 0.17 {
                         print("normal")
                         self.flip.text = "normal"
                         self.isFlippingPage = false
