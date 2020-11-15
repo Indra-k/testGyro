@@ -76,7 +76,7 @@ class ViewController: UIViewController {
 //                print("acc \(x),\(y),\(z)")
                 
                 if self.isFlippingPage == false {
-                    if myData.acceleration.z < -0.5 {
+                    if myData.acceleration.x > 0 && myData.acceleration.x < 0.5 {
                         if myData.acceleration.y < -0.54 {
                             print("next page")
                             self.flip.text = "next page"
@@ -88,20 +88,28 @@ class ViewController: UIViewController {
                         }
                     } else if myData.acceleration.x > 0.5 {
                         if myData.acceleration.y < -0.24 {
-                            print("next page2")
-                            self.flip.text = "next page2"
+                            print("next page 2")
+                            self.flip.text = "next page 2"
                             self.isFlippingPage = true
                         } else if myData.acceleration.y > 0.24 {
-                            print("previous page2")
-                            self.flip.text = "previous page2"
+                            print("previous page 2")
+                            self.flip.text = "previous page 2"
                             self.isFlippingPage = true
                         }
                     }
                 } else {
-                    if myData.acceleration.y > -0.17 && myData.acceleration.y < 0.17 {
-                        print("normal")
-                        self.flip.text = "normal"
-                        self.isFlippingPage = false
+                    if myData.acceleration.x > 0 && myData.acceleration.x < 0.5 {
+                        if myData.acceleration.y > -0.17 && myData.acceleration.y < 0.17 {
+                            print("normal")
+                            self.flip.text = "normal"
+                            self.isFlippingPage = false
+                        }
+                    } else if myData.acceleration.x > 0.5 {
+                        if myData.acceleration.y > -0.1 && myData.acceleration.y < 0.1 {
+                            print("normal 2")
+                            self.flip.text = "normal 2"
+                            self.isFlippingPage = false
+                        }
                     }
                     //wait animation complete
                 }
