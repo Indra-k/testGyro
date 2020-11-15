@@ -75,8 +75,18 @@ class ViewController: UIViewController {
                 
 //                print("acc \(x),\(y),\(z)")
                 
+                var fixedPoint = self.view.convert(CGPoint(x: 1.0, y: 1.0), to: self.view.window?.screen.fixedCoordinateSpace as! UICoordinateSpace)
+                var orientation = UIDeviceOrientation.unknown
+                if (fixedPoint.x > 0.0) {
+                    orientation = UIDeviceOrientation.landscapeRight
+//                    self.rol = "right"
+                } else {
+                    orientation = UIDeviceOrientation.landscapeLeft
+//                    self.rol = "left"
+                }
+                
                 if self.isFlippingPage == false {
-                    if myData.acceleration.z < -0.5 {
+                    if myData.acceleration.x > 0 && myData.acceleration.x < 0.5 {
                         if myData.acceleration.y < -0.54 {
                             print("next page")
                             self.flip.text = "next page"
