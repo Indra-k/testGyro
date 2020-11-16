@@ -24,6 +24,8 @@ class ViewController: UIViewController {
     var timer = Timer()
     var isFlippingPage = false
     
+    var orientation = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         myGyro()
@@ -62,7 +64,7 @@ class ViewController: UIViewController {
     func myAccel() {
 //        motion.accelerometerUpdateInterval = 1.0
         motion.accelerometerUpdateInterval = 1.0 / 60.0
-        motion.startAccelerometerUpdates(to: OperationQueue.current!) { (data, error) in
+        motion.startAccelerometerUpdates(to: OperationQueue.current!) { [self] (data, error) in
             if let myData = data {
                 
                 let x = String(format: "%.3f", myData.acceleration.x)
@@ -75,24 +77,36 @@ class ViewController: UIViewController {
                 
 //                print("acc \(x),\(y),\(z)")
                 
-                if self.isFlippingPage == false {
-                    if myData.acceleration.y < -0.6 && myData.acceleration.z > -0.7 {
-                        print("next page")
-                        self.flip.text = "next page"
-                        self.isFlippingPage = true
-                    } else if myData.acceleration.y > 0.6 && myData.acceleration.z > -0.7 {
-                        print("previous page")
-                        self.flip.text = "previous page"
-                        self.isFlippingPage = true
-                    }
-                } else {
-                    if myData.acceleration.y > -0.3 && myData.acceleration.y < 0.3 {
-                        print("normal")
-                        self.flip.text = "normal"
-                        self.isFlippingPage = false
-                    }
-                    //wait animation complete
+                if UIDevice.current.orientation == UIDeviceOrientation.landscapeRight {
+                    orientation = "right"
+                } else if UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft {
+                    orientation = "left"
                 }
+                
+//                if UIDevice.current.orientation == UIDeviceOrientation.landscapeRight {
+                if orientation == "right" {
+                    if self.isFlippingPage == false {
+                        if myData.acceleration.x > -0.2 && myData.acceleration.x < 0.5 {
+                            if myData.acceleration.y > 0.54 {
+                                print("previous page")
+                                isFlippingPage = true
+                            } else if myData.acceleration.y < -0.54 {
+                                print("next page")
+                                isFlippingPage = true
+                            }
+                        }
+                    } else if isFlippingPage == true {
+                        if myData.acceleration.x > -0.2 && myData.acceleration.x < 0.5 {
+                            if myData.acceleration.y > -0.24 && myData.acceleration.y < 0.24 {
+                                print("normal")
+                                isFlippingPage = false
+                            }
+                        }
+                    }
+                } else if orientation == "left" {
+                    print("left")
+                }
+                
             }
         }
     }
