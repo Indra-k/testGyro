@@ -151,4 +151,9 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    func stopMeasuring() {
+        motion.stopAccelerometerUpdates()
+    }
+    
 }
