@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     var motion = CMMotionManager()
     var timer = Timer()
     var isFlippingPage = false
+    var orientation = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,18 +76,8 @@ class ViewController: UIViewController {
                 
 //                print("acc \(x),\(y),\(z)")
                 
-                var fixedPoint = self.view.convert(CGPoint(x: 1.0, y: 1.0), to: self.view.window?.screen.fixedCoordinateSpace as! UICoordinateSpace)
-                var orientation = UIDeviceOrientation.unknown
-                if (fixedPoint.x > 0.0) {
-                    orientation = UIDeviceOrientation.landscapeRight
-//                    self.rol = "right"
-                } else {
-                    orientation = UIDeviceOrientation.landscapeLeft
-//                    self.rol = "left"
-                }
-                
                 if self.isFlippingPage == false {
-                    if myData.acceleration.x > 0 && myData.acceleration.x < 0.5 {
+                    if myData.acceleration.x > -0 && myData.acceleration.x < 0.5 {
                         if myData.acceleration.y < -0.54 {
                             print("next page")
                             self.flip.text = "next page"
@@ -97,21 +88,63 @@ class ViewController: UIViewController {
                             self.isFlippingPage = true
                         }
                     } else if myData.acceleration.x > 0.5 {
-                        if myData.acceleration.y < -0.24 {
-                            print("next page2")
-                            self.flip.text = "next page2"
+                        if myData.acceleration.y < -0.3 {
+                            print("next page 2")
+                            self.flip.text = "next page 2"
                             self.isFlippingPage = true
-                        } else if myData.acceleration.y > 0.24 {
-                            print("previous page2")
-                            self.flip.text = "previous page2"
+                        } else if myData.acceleration.y > 0.3 {
+                            print("previous page 2")
+                            self.flip.text = "previous page 2"
+                            self.isFlippingPage = true
+                        }
+                    } else if myData.acceleration.x < 0 && myData.acceleration.x > -0.5 {
+                        if myData.acceleration.y < -0.54 {
+                            print("previous page 3")
+                            self.flip.text = "previous page 3"
+                            self.isFlippingPage = true
+                        } else if myData.acceleration.y > 0.54 {
+                            print("next page 3")
+                            self.flip.text = "next page 3"
+                            self.isFlippingPage = true
+                        }
+                    } else if myData.acceleration.x < -0.5 {
+                        if myData.acceleration.y < -0.3 {
+                            print("previous page 4")
+                            self.flip.text = "previous page 4"
+                            self.isFlippingPage = true
+                        } else if myData.acceleration.y > 0.3 {
+                            print("next page 4")
+                            self.flip.text = "next page 4"
                             self.isFlippingPage = true
                         }
                     }
+                    
+                // if isFlipping == true
                 } else {
-                    if myData.acceleration.y > -0.17 && myData.acceleration.y < 0.17 {
-                        print("normal")
-                        self.flip.text = "normal"
-                        self.isFlippingPage = false
+                    if myData.acceleration.x > -0 && myData.acceleration.x < 0.5 {
+                        if myData.acceleration.y > -0.17 && myData.acceleration.y < 0.17 {
+                            print("normal")
+                            self.flip.text = "normal"
+                            self.isFlippingPage = false
+                        }
+                    } else if myData.acceleration.x > 0.5 {
+                        if myData.acceleration.y > -0.1 && myData.acceleration.y < 0.1 {
+                            print("normal 2")
+                            self.flip.text = "normal 2"
+                            self.isFlippingPage = false
+                        }
+                    } else if myData.acceleration.x < 0 && myData.acceleration.x > -0.5 {
+                        if myData.acceleration.y > -0.17 && myData.acceleration.y < 0.17 {
+                            print("normal 3")
+                            self.flip.text = "normal 3"
+                            self.isFlippingPage = false
+                        }
+                    } else if myData.acceleration.x < 0.5 {
+                        if myData.acceleration.y > -0.1 && myData.acceleration.y < 0.1 {
+                            print("normal 4")
+                            self.flip.text = "normal 4"
+                            self.isFlippingPage = false
+                        }
                     }
                     //wait animation complete
                 }
